@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:location/location.dart';
@@ -31,7 +33,19 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
       }
 
       _locationData = await location.getLocation();
-      print(_locationData.longitude);
+      String data =
+          "Longitude: ${_locationData.longitude} Latitude: ${_locationData.latitude}";
+
+      emit(ThetaState(
+          responseWindowState: ResponseWindowState.phoneGPS,
+          latitude: _locationData.latitude!));
+
+      print("Longitude: ${_locationData.longitude}");
+      print("Latitude: ${_locationData.latitude}");
+      print(_locationData.time);
+    });
+    on<ConvertGPSEvent>((event, emit) async {
+      emit(state.copyWith(responseWindowState: ResponseWindowState.convertGPS));
     });
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/theta/theta_bloc.dart';
+import 'widgets/response_window.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,7 +41,9 @@ class MyApp extends StatelessWidget {
                                     Color.fromRGBO(202, 173, 239, 100)),
                           ),
                           OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<ThetaBloc>().add(ConvertGPSEvent());
+                            },
                             child: const Text(
                               'convert GPS',
                               style: TextStyle(color: Colors.black87),
@@ -122,7 +125,7 @@ class MyApp extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 2,
-                  child: Image.asset('assets/images/key.png'),
+                  child: ResponseWindow(),
                 )
               ],
             ));

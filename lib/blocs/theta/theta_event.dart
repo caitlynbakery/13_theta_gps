@@ -8,3 +8,5 @@ abstract class ThetaEvent extends Equatable {
 }
 
 class GetGPSPhoneEvent extends ThetaEvent {}
+
+class ConvertGPSEvent extends ThetaEvent {}

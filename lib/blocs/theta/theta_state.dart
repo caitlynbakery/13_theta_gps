@@ -2,22 +2,28 @@
 
 part of 'theta_bloc.dart';
 
-class ThetaState extends Equatable {
-  final String gpsInfo;
-  const ThetaState(
-    this.gpsInfo,
-  );
+enum ResponseWindowState { initial, phoneGPS, convertGPS }
 
-  factory ThetaState.initial() => ThetaState("");
+class ThetaState extends Equatable {
+  final double latitude;
+  final ResponseWindowState responseWindowState;
+
+  const ThetaState(
+      {this.latitude = 0.0,
+      this.responseWindowState = ResponseWindowState.initial});
+
+  factory ThetaState.initial() => ThetaState();
 
   @override
-  List<Object> get props => [gpsInfo];
+  List<Object> get props => [latitude, responseWindowState];
 
   ThetaState copyWith({
-    String? gpsInfo,
+    double? latitude,
+    ResponseWindowState? responseWindowState,
   }) {
     return ThetaState(
-      gpsInfo ?? this.gpsInfo,
+      latitude: latitude ?? this.latitude,
+      responseWindowState: responseWindowState ?? this.responseWindowState,
     );
   }
 
