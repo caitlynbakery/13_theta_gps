@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:ffi';
+import 'package:http/http.dart' as http;
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -33,19 +35,47 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
       }
 
       _locationData = await location.getLocation();
-      String data =
-          "Longitude: ${_locationData.longitude} Latitude: ${_locationData.latitude}";
 
       emit(ThetaState(
-          responseWindowState: ResponseWindowState.phoneGPS,
-          latitude: _locationData.latitude!));
-
-      print("Longitude: ${_locationData.longitude}");
-      print("Latitude: ${_locationData.latitude}");
-      print(_locationData.time);
+        responseWindowState: ResponseWindowState.phoneGPS,
+        latitude: _locationData.latitude!,
+        longitude: _locationData.longitude!,
+        altitude: _locationData.altitude!,
+        time: _locationData.time!,
+      ));
     });
     on<ConvertGPSEvent>((event, emit) async {
-      emit(state.copyWith(responseWindowState: ResponseWindowState.convertGPS));
+      DateTime date =
+          DateTime.fromMicrosecondsSinceEpoch(state.time.toInt() * 1000);
+      Map gpsMap = {
+        "gpsInfo": {
+          "lat": state.latitude.toStringAsFixed(3),
+          "lng": state.longitude.toStringAsFixed(3),
+          "altitude": state.altitude,
+          "_dateTimeZone": date,
+          "_datum": "WGS84"
+        }
+      };
+      emit(state.copyWith(
+          responseWindowState: ResponseWindowState.convertGPS,
+          dataMap: gpsMap));
+    });
+    on<SetGPSEvent>((event, emit) async {
+      var url = Uri.parse('http://192.168.1.1/osc/commands/execute');
+      var header = {'Content-Type': 'application/json;charset=utf-8'};
+      var bodyMap = {
+        'name': 'camera.setOptions',
+        'parameters:': {
+          'options': {
+            'gpsInfo': {state.dataMap}
+          }
+        }
+      };
+      var bodyJson = jsonEncode(bodyMap);
+      var response = await http.post(url, headers: header, body: bodyJson);
+      emit(state.copyWith(
+          message: response.body,
+          responseWindowState: ResponseWindowState.setGPS));
     });
   }
 }

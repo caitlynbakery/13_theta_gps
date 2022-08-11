@@ -14,9 +14,12 @@ class ResponseWindow extends StatelessWidget {
           case ResponseWindowState.initial:
             return Image.asset('assets/images/key.png');
           case ResponseWindowState.phoneGPS:
-            return Text("Latitude: ${state.latitude.toString()}");
+            return Text(
+                "Latitude: ${state.latitude.toString()} Longitude: ${state.longitude.toString()} Time: ${state.time.toString()}");
           case ResponseWindowState.convertGPS:
-            return Text("convert GPS");
+            return Text(state.dataMap.toString());
+          case ResponseWindowState.setGPS:
+            return Text("set GPS");
           default:
             return Text("");
         }

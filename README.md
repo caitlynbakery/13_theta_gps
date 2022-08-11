@@ -9,3 +9,5 @@ This project illustrates how to acquire GPS information from Android and iOS dev
 ![diagram](docs/diagram.png)
 
 It does not appear that the RICOH THETA SC2 supports the [camera._getMetadata ](https://api.ricoh/docs/theta-web-api-v2.1/commands/camera._get_metadata/) API command.  This tutorial shows a workaround, which involves downloading the SC2 image from the camera to the local mobile device and then using local Flutter packages.
+
+[DateTime](https://www.kindacode.com/snippet/dart-convert-timestamp-to-datetime-and-vice-versa/)

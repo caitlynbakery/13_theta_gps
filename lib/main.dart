@@ -53,7 +53,9 @@ class MyApp extends StatelessWidget {
                                     Color.fromRGBO(202, 173, 239, 100)),
                           ),
                           OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<ThetaBloc>().add(SetGPSEvent());
+                            },
                             child: const Text(
                               'set GPS \n camera',
                               style: TextStyle(color: Colors.black87),
