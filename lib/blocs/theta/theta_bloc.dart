@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 
 part 'theta_event.dart';
@@ -63,11 +64,22 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
     on<SetGPSEvent>((event, emit) async {
       var url = Uri.parse('http://192.168.1.1/osc/commands/execute');
       var header = {'Content-Type': 'application/json;charset=utf-8'};
+      DateTime date =
+          DateTime.fromMicrosecondsSinceEpoch(state.time.toInt() * 1000);
+      // print(DateFormat.yM().format(date));
+      print('${date.year}:${date.month}');
+
       var bodyMap = {
         'name': 'camera.setOptions',
-        'parameters:': {
+        'parameters': {
           'options': {
-            'gpsInfo': {state.dataMap}
+            'gpsInfo': {
+              "lat": state.latitude,
+              "lng": state.longitude,
+              "_altitude": state.altitude,
+              "_dateTimeZone": "2014:05:18 01:04:29+08:00",
+              "_datum": "WGS84"
+            }
           }
         }
       };
@@ -76,6 +88,21 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
       emit(state.copyWith(
           message: response.body,
           responseWindowState: ResponseWindowState.setGPS));
+    });
+    on<GetGPSEvent>((event, emit) async {
+      var url = Uri.parse('http://192.168.1.1/osc/commands/execute');
+      var header = {'Content-Type': 'application/json;charset=utf-8'};
+      var bodyMap = {
+        'name': 'camera.getOptions',
+        'parameters': {
+          'optionNames': ['gpsInfo']
+        }
+      };
+      var bodyJson = jsonEncode(bodyMap);
+      var response = await http.post(url, headers: header, body: bodyJson);
+      emit(state.copyWith(
+          message: response.body,
+          responseWindowState: ResponseWindowState.getGPS));
     });
   }
 }

@@ -73,7 +73,9 @@ class MyApp extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<ThetaBloc>().add(GetGPSEvent());
+                            },
                             child: const Text(
                               'get GPS \n camera',
                               style: TextStyle(color: Colors.black87),

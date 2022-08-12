@@ -20,6 +20,8 @@ class ResponseWindow extends StatelessWidget {
             return Text(state.dataMap.toString());
           case ResponseWindowState.setGPS:
             return Text("set GPS");
+          case ResponseWindowState.getGPS:
+            return Text(state.message);
           default:
             return Text("");
         }

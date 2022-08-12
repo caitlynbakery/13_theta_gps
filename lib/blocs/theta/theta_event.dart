@@ -12,3 +12,5 @@ class GetGPSPhoneEvent extends ThetaEvent {}
 class ConvertGPSEvent extends ThetaEvent {}
 
 class SetGPSEvent extends ThetaEvent {}
+
+class GetGPSEvent extends ThetaEvent {}

@@ -2,7 +2,7 @@
 
 part of 'theta_bloc.dart';
 
-enum ResponseWindowState { initial, phoneGPS, convertGPS, setGPS }
+enum ResponseWindowState { initial, phoneGPS, convertGPS, setGPS, getGPS }
 
 class ThetaState extends Equatable {
   final double latitude;
@@ -18,7 +18,7 @@ class ThetaState extends Equatable {
       this.longitude = 0.0,
       this.time = 0.0,
       this.altitude = 0.0,
-      this.dataMap: const {},
+      this.dataMap = const {},
       this.message = "",
       this.responseWindowState = ResponseWindowState.initial});
 
