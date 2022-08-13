@@ -66,18 +66,20 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
       var header = {'Content-Type': 'application/json;charset=utf-8'};
       DateTime date =
           DateTime.fromMicrosecondsSinceEpoch(state.time.toInt() * 1000);
-      // print(DateFormat.yM().format(date));
-      print('${date.year}:${date.month}');
+      String month = date.month.toString();
+      if (date.month < 10) {
+        month = "0${date.month}";
+      }
 
       var bodyMap = {
         'name': 'camera.setOptions',
         'parameters': {
           'options': {
             'gpsInfo': {
-              "lat": state.latitude,
-              "lng": state.longitude,
+              "lat": 35.6762,
+              "lng": 139.6503,
               "_altitude": state.altitude,
-              "_dateTimeZone": "2014:05:18 01:04:29+08:00",
+              "_dateTimeZone": "${date.year}:05:18 01:04:29+08:00",
               "_datum": "WGS84"
             }
           }
@@ -85,6 +87,8 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
       };
       var bodyJson = jsonEncode(bodyMap);
       var response = await http.post(url, headers: header, body: bodyJson);
+      print(bodyJson);
+      print(response.body);
       emit(state.copyWith(
           message: response.body,
           responseWindowState: ResponseWindowState.setGPS));
@@ -100,6 +104,7 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
       };
       var bodyJson = jsonEncode(bodyMap);
       var response = await http.post(url, headers: header, body: bodyJson);
+      print("GET GPS INFO: ${response.body}");
       emit(state.copyWith(
           message: response.body,
           responseWindowState: ResponseWindowState.getGPS));
