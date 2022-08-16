@@ -2,7 +2,15 @@
 
 part of 'theta_bloc.dart';
 
-enum ResponseWindowState { initial, phoneGPS, convertGPS, setGPS, getGPS }
+enum ResponseWindowState {
+  initial,
+  phoneGPS,
+  convertGPS,
+  setGPS,
+  getGPS,
+  takePic,
+  savedImage
+}
 
 class ThetaState extends Equatable {
   final double latitude;
@@ -11,6 +19,7 @@ class ThetaState extends Equatable {
   final double altitude;
   final Map dataMap;
   final String message;
+  final String fileUrl;
   final ResponseWindowState responseWindowState;
 
   const ThetaState(
@@ -20,6 +29,7 @@ class ThetaState extends Equatable {
       this.altitude = 0.0,
       this.dataMap = const {},
       this.message = "",
+      this.fileUrl = "",
       this.responseWindowState = ResponseWindowState.initial});
 
   factory ThetaState.initial() => ThetaState();
@@ -31,6 +41,7 @@ class ThetaState extends Equatable {
         altitude,
         dataMap,
         message,
+        fileUrl,
         time,
         responseWindowState
       ];
@@ -41,6 +52,7 @@ class ThetaState extends Equatable {
     double? time,
     double? altitude,
     Map? dataMap,
+    String? fileUrl,
     String? message,
     ResponseWindowState? responseWindowState,
   }) {
@@ -51,6 +63,7 @@ class ThetaState extends Equatable {
       dataMap: dataMap ?? this.dataMap,
       altitude: altitude ?? this.altitude,
       message: message ?? this.message,
+      fileUrl: fileUrl ?? this.fileUrl,
       responseWindowState: responseWindowState ?? this.responseWindowState,
     );
   }

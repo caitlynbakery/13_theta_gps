@@ -14,3 +14,9 @@ class ConvertGPSEvent extends ThetaEvent {}
 class SetGPSEvent extends ThetaEvent {}
 
 class GetGPSEvent extends ThetaEvent {}
+
+class TakePicEvent extends ThetaEvent {}
+
+class GetFileEvent extends ThetaEvent {}
+
+class GallerySaveEvent extends ThetaEvent {}

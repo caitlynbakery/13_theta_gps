@@ -85,7 +85,9 @@ class MyApp extends StatelessWidget {
                                     Color.fromRGBO(173, 239, 192, 100)),
                           ),
                           OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<ThetaBloc>().add(TakePicEvent());
+                            },
                             child: const Text(
                               'take pic',
                               style: TextStyle(color: Colors.black87),
@@ -103,7 +105,9 @@ class MyApp extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<ThetaBloc>().add(GetFileEvent());
+                            },
                             child: const Text(
                               'save image \n phone',
                               style: TextStyle(color: Colors.black87),

@@ -22,6 +22,8 @@ class ResponseWindow extends StatelessWidget {
             return Text("set GPS");
           case ResponseWindowState.getGPS:
             return Text(state.message);
+          case ResponseWindowState.takePic:
+            return Text('taking pic');
           default:
             return Text("");
         }
