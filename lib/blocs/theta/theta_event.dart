@@ -20,3 +20,5 @@ class TakePicEvent extends ThetaEvent {}
 class GetFileEvent extends ThetaEvent {}
 
 class GallerySaveEvent extends ThetaEvent {}
+
+class GetMetadataEvent extends ThetaEvent {}

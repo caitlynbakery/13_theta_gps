@@ -142,6 +142,7 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
     on<GallerySaveEvent>((event, emit) async {
       print('saving image to phone');
       await GallerySaver.saveImage(state.fileUrl).then((value) {
+        print("Path from Gallery Saver: ");
         emit(state.copyWith(
             responseWindowState: ResponseWindowState.savedImage));
       });
