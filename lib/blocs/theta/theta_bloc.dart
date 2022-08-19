@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
+import 'package:exif/exif.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:bloc/bloc.dart';
@@ -7,6 +9,7 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'theta_event.dart';
 part 'theta_state.dart';
@@ -46,22 +49,7 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
         time: _locationData.time!,
       ));
     });
-    on<ConvertGPSEvent>((event, emit) async {
-      DateTime date =
-          DateTime.fromMicrosecondsSinceEpoch(state.time.toInt() * 1000);
-      Map gpsMap = {
-        "gpsInfo": {
-          "lat": state.latitude.toStringAsFixed(3),
-          "lng": state.longitude.toStringAsFixed(3),
-          "altitude": state.altitude,
-          "_dateTimeZone": date,
-          "_datum": "WGS84"
-        }
-      };
-      emit(state.copyWith(
-          responseWindowState: ResponseWindowState.convertGPS,
-          dataMap: gpsMap));
-    });
+
     on<SetGPSEvent>((event, emit) async {
       var url = Uri.parse('http://192.168.1.1/osc/commands/execute');
       var header = {'Content-Type': 'application/json;charset=utf-8'};
@@ -146,6 +134,24 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
         emit(state.copyWith(
             responseWindowState: ResponseWindowState.savedImage));
       });
+    });
+    on<ImagePickEvent>((event, emit) async {
+      emit(state.copyWith(image: event.image));
+      print(state.image!.path.toString());
+    });
+    on<GetMetadataEvent>((event, emit) async {
+      final fileBytes = File(state.image!.path).readAsBytesSync();
+      final data = await readExifFromBytes(fileBytes);
+      if (data.isEmpty) {
+        print("no exif data found");
+        return;
+      }
+      emit(state.copyWith(
+          responseWindowState: ResponseWindowState.metaData,
+          message:
+              'Latitude: ${data['GPS GPSLatitude']} Longitude: ${data['GPS GPSLongitude']}'));
+      print(
+          'Latitude: ${data['GPS GPSLatitude']} Longitude: ${data['GPS GPSLongitude']}');
     });
   }
 }

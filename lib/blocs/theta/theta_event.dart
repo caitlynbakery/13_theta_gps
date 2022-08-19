@@ -9,8 +9,6 @@ abstract class ThetaEvent extends Equatable {
 
 class GetGPSPhoneEvent extends ThetaEvent {}
 
-class ConvertGPSEvent extends ThetaEvent {}
-
 class SetGPSEvent extends ThetaEvent {}
 
 class GetGPSEvent extends ThetaEvent {}
@@ -20,5 +18,11 @@ class TakePicEvent extends ThetaEvent {}
 class GetFileEvent extends ThetaEvent {}
 
 class GallerySaveEvent extends ThetaEvent {}
+
+class ImagePickEvent extends ThetaEvent {
+  final XFile image;
+
+  const ImagePickEvent(this.image);
+}
 
 class GetMetadataEvent extends ThetaEvent {}

@@ -5,11 +5,11 @@ part of 'theta_bloc.dart';
 enum ResponseWindowState {
   initial,
   phoneGPS,
-  convertGPS,
   setGPS,
   getGPS,
   takePic,
-  savedImage
+  savedImage,
+  metaData
 }
 
 class ThetaState extends Equatable {
@@ -20,6 +20,7 @@ class ThetaState extends Equatable {
   final Map dataMap;
   final String message;
   final String fileUrl;
+  final XFile? image;
   final ResponseWindowState responseWindowState;
 
   const ThetaState(
@@ -30,12 +31,13 @@ class ThetaState extends Equatable {
       this.dataMap = const {},
       this.message = "",
       this.fileUrl = "",
+      this.image,
       this.responseWindowState = ResponseWindowState.initial});
 
   factory ThetaState.initial() => ThetaState();
 
   @override
-  List<Object> get props => [
+  List<dynamic> get props => [
         latitude,
         longitude,
         altitude,
@@ -43,6 +45,7 @@ class ThetaState extends Equatable {
         message,
         fileUrl,
         time,
+        image,
         responseWindowState
       ];
 
@@ -54,6 +57,7 @@ class ThetaState extends Equatable {
     Map? dataMap,
     String? fileUrl,
     String? message,
+    XFile? image,
     ResponseWindowState? responseWindowState,
   }) {
     return ThetaState(
@@ -64,6 +68,7 @@ class ThetaState extends Equatable {
       altitude: altitude ?? this.altitude,
       message: message ?? this.message,
       fileUrl: fileUrl ?? this.fileUrl,
+      image: image ?? this.image,
       responseWindowState: responseWindowState ?? this.responseWindowState,
     );
   }
