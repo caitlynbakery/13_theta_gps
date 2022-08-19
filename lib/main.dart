@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/theta/theta_bloc.dart';
 import 'widgets/response_window.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,18 +35,6 @@ class MyApp extends StatelessWidget {
                             },
                             child: const Text(
                               'get GPS \n phone',
-                              style: TextStyle(color: Colors.black87),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                                backgroundColor:
-                                    Color.fromRGBO(202, 173, 239, 100)),
-                          ),
-                          OutlinedButton(
-                            onPressed: () {
-                              context.read<ThetaBloc>().add(ConvertGPSEvent());
-                            },
-                            child: const Text(
-                              'convert GPS',
                               style: TextStyle(color: Colors.black87),
                             ),
                             style: OutlinedButton.styleFrom(
@@ -117,7 +106,27 @@ class MyApp extends StatelessWidget {
                                     Color.fromRGBO(239, 173, 221, 100)),
                           ),
                           OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              final image = await ImagePicker().pickImage(
+                                source: ImageSource.gallery,
+                              );
+                              if (image == null) return;
+                              context
+                                  .read<ThetaBloc>()
+                                  .add(ImagePickEvent(image));
+                            },
+                            child: const Text(
+                              'Image Pick',
+                              style: TextStyle(color: Colors.black87),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromRGBO(202, 173, 239, 100)),
+                          ),
+                          OutlinedButton(
+                            onPressed: () {
+                              context.read<ThetaBloc>().add(GetMetadataEvent());
+                            },
                             child: const Text(
                               'check metadata \n file',
                               style: TextStyle(color: Colors.black87),
