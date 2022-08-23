@@ -10,3 +10,5 @@ This project illustrates how to acquire GPS information from Android devices and
 
 
 [DateTime](https://www.kindacode.com/snippet/dart-convert-timestamp-to-datetime-and-vice-versa/)
+
+On the physical device, the user has to wait for a couple of moments for the GPS location to take place.
