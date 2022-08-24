@@ -60,6 +60,8 @@ class ThetaBloc extends Bloc<ThetaEvent, ThetaState> {
         month = "0${date.month}";
       }
 
+//TODO: implement datetime in bodyMap
+
       var bodyMap = {
         'name': 'camera.setOptions',
         'parameters': {
